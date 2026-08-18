@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myvulnerableexpress
+  labels:
+    app: myvulnerableexpress
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myvulnerableexpress
+  template:
+    metadata:
+      labels:
+        app: myvulnerableexpress
+    spec:
+      containers:
+        - name: myvulnerableexpress
+          image: cxdemosg/myvulnerableexpress:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 5000
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi

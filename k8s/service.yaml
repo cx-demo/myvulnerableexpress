@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: myvulnerableexpress
+  labels:
+    app: myvulnerableexpress
+spec:
+  type: ClusterIP
+  selector:
+    app: myvulnerableexpress
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
